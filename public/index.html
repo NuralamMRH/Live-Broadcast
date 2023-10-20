@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Live Video Stream</title>
+</head>
+
+<body>
+<h1 id="ip_address">IP NOT FOUND</h1>
+<video id="videoElement" controls autoplay muted></video>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flv.js@1.5.0/dist/flv.min.js"></script>
+<script>
+    const socket = io();
+    const videoElement = document.getElementById('videoElement');
+    const ip_address = document.getElementById('ip_address');
+  
+
+        let serverIP;
+
+        // Listen for the server to send the IP address
+        socket.on('server_ip_address', (ip) => {
+            serverIP = ip;
+            ip_address.textContent = serverIP;
+            // Configure the video player with the received IP address
+            const flvPlayer = flvjs.createPlayer({
+                type: 'flv',
+                url: `ws://${serverIP}:8000/live/1.flv`, // WebSocket URL for your live stream
+            });
+
+            flvPlayer.attachMediaElement(videoElement);
+            flvPlayer.load();
+            flvPlayer.play();
+        });
+</script>
+
+</body>
+
+</html>

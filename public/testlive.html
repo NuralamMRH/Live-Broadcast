@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Live Video Stream</title>
+</head>
+
+<body>
+
+    <video id="videoElement" controls autoplay muted></video>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flv.js@1.5.0/dist/flv.min.js"></script>
+    <script>
+        const socket = io('http//localhost:3000');
+        const videoElement = document.getElementById('videoElement');
+        const flvPlayer = flvjs.createPlayer({
+            type: 'flv',
+            url: 'ws://localhost:8000/live/1.flv', // WebSocket URL for your live stream
+        });
+
+        flvPlayer.attachMediaElement(videoElement);
+        flvPlayer.load();
+        flvPlayer.play();
+    </script>
+
+</body>
+
+</html>
