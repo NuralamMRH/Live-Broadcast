@@ -27,7 +27,7 @@ function getServerIP() {
 
 const serverIP = getServerIP();
 
-const serverPort = 3000;
+const serverPort = process.env.PORT || 3000;
 // Configure CORS
 app.use(
   cors({
